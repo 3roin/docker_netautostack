@@ -1,4 +1,4 @@
-# docker_netautostack
+# Docker Network Automation Stack
 Network Automation with Docker
 
 Stack components:
