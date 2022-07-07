@@ -1,0 +1,23 @@
+version: '3.4'
+services:
+  jenkins-master:
+    image: 3roin/jenkins:v0.1
+#    user: jenkins:jenkins
+    volumes:
+     - type: bind
+       source: /mnt/netauto/jenkins-data
+       target: /var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+#    healthcheck:
+#      test: ["CMD-SHELL", "curl -sS http://localhost:8080/login || exit 1"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+
+  ansible-slave:
+    image: 3roin/ansible-js:0.1
+#    user: jenkins:jenkins
+    ports:
+      - "20022:22"
