@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 services:
   server:
     image: 3roin/jenkins:v0.1
@@ -6,7 +6,7 @@ services:
     user: root
     volumes:
      - type: bind
-       source: /mnt/netauto/jenkins-data
+       source: /mnt/jenkins/jenkins-data
        target: /var/jenkins_home
      - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -14,7 +14,7 @@ services:
       - "50000:50000"
     networks:
       - agent_network
-      - netauto_network
+#      - portainer_agent_network
     deploy:
       mode: replicated
       replicas: 1
@@ -30,6 +30,6 @@ networks:
   agent_network:
     driver: overlay
     attachable: true
-  netauto_network:
-    driver: overlay
-    attachable: true
+#  portainer_agent_network:
+#    external:
+#      name: portainer_agent_network
