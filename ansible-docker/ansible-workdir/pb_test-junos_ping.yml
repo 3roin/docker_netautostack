@@ -1,0 +1,12 @@
+---
+- name: Test
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Test ping
+      junipernetworks.junos.junos_ping:
+        dest: 10.9.99.254
+        interface: irb.999
+        count: 20
+        size: 512
+        rapid: True
