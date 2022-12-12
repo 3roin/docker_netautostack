@@ -1,22 +1,20 @@
-version: '3.2'
+version: '3.8'
 
 services:
   agent:
-    image: portainer/agent:2.14.0-alpine
-#    ports:
-#      - "9001:9001"
+    image: portainer/agent:2.16.2-alpine
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - agent_network
+      - dock-overlay-net
     deploy:
       mode: global
       placement:
         constraints: [node.platform.os == linux]
 
   server:
-    image: portainer/portainer-ce:2.14.0-alpine
+    image: portainer/portainer-ce:2.16.2-alpine
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
       - "9443:9443"
@@ -24,10 +22,10 @@ services:
       - "8000:8000"
     volumes:
       - type: bind
-        source: /mnt/portainer/data
+        source: /mnt/nfs/docker-apps-data/portainer/data
         target: /data
     networks:
-      - agent_network
+      - dock-overlay-net
     deploy:
       mode: replicated
       replicas: 1
@@ -35,6 +33,6 @@ services:
         constraints: [node.role == manager]
 
 networks:
-  agent_network:
-    driver: overlay
-    attachable: true
+  dock-overlay-net:
+    name: dock-overlay-net
+    external: true
